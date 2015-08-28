@@ -4,7 +4,6 @@
 from Header import *
 from Date import *
 from Main import * 
-from GestionMessage import * 
 from Journalisation import * 
 from Requeter import * 
 

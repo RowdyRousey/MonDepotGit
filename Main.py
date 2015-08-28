@@ -13,7 +13,7 @@ from GestionFichier import *
 class Application:
     def __init__(self):
         MainInterface = gtk.Builder()
-        MainInterface.add_from_file("TIFOM.glade") #On fait le lien avec le fichier GLADE
+        MainInterface.add_from_file("TIFO.glade") #On fait le lien avec le fichier GLADE
         MainInterface.connect_signals(self) #Connexion des signaux définis
         
         self.window = MainInterface.get_object("MainWindows")
