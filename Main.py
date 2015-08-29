@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# -*- coding: latin-1 -*-
 
 # Import de librairies ou de fichiers externes
 from Header import * 
@@ -65,7 +65,7 @@ class Application:
         print "J'ai clique sur Param"
         
     def on_MenuItemAPropos_click(self,event):
-        AboutWin()
+        print "J'ai appuyé sur About"
                
 if __name__ == "__main__":
 	Application()

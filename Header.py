@@ -11,8 +11,6 @@ import re
 import pygtk
 pygtk.require('2.0')
 import gtk
- 
-from About import *
 
 ERROR = 0
 
