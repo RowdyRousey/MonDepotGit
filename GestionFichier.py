@@ -154,38 +154,38 @@ def ExtraireEnTete(NomFichier):
     EcrireLog(FILE(),LINE(),"Fermeture de "+NomFichier+" impossible") 
 
   # Extraction de l'en-tête du fichier
-  # [Day,Month,Year] = ExtraireDate(Donnees)
+  [Day,Month,Year] = ExtraireDate(Donnees)
   
   # La Date sous forme Jour/Mois/Annee
-  # DateConvenable = str(Day)+'/'+str(Month)+'/'+str(Year)
+  DateConvenable = str(Day)+'/'+str(Month)+'/'+str(Year)
       
   EnTeteFichier = Donnees[0:LONG_HEAD_BUFFER] 
       
   # Nombre d'activation par les librairies MOD_C MOD_E
-  # NbActivation = ord(EnTeteFichier[4:5])*256 + ord(EnTeteFichier[5:6])
+  NbActivation = ord(EnTeteFichier[4:5])*256 + ord(EnTeteFichier[5:6])
       
   #Numéro du bloc Fichier
-  # NumBlocFic = ord(EnTeteFichier[6:7])*256 + ord(EnTeteFichier[7:8])
+  NumBlocFic = ord(EnTeteFichier[6:7])*256 + ord(EnTeteFichier[7:8])
    
   #Numéro Heure Journée
-  # Heure = ord(EnTeteFichier[8:9])*256 + ord(EnTeteFichier[9:10])
+  Heure = ord(EnTeteFichier[8:9])*256 + ord(EnTeteFichier[9:10])
 
   # Nombre de pas de 100 ms écoulés dans l'heure
-  # NbMillisec = ord(EnTeteFichier[10:11])*256 + ord(EnTeteFichier[11:12])
-  # NbSec = NbMillisec/10
-  # Minutes = NbSec/60
-  # Secondes = NbSec%60      
+  NbMillisec = ord(EnTeteFichier[10:11])*256 + ord(EnTeteFichier[11:12])
+  NbSec = NbMillisec/10
+  Minutes = NbSec/60
+  Secondes = NbSec%60      
 
   # Le type d'enregistrement en EBCDIC (Extended Binary Coded Decimal Interchange Code)
   TypeEnreg=EnTeteFichier[12:20].decode('EBCDIC-CP-BE').encode('ascii')
 
   if TypeEnreg.rstrip() != "OLDI" and TypeEnreg.rstrip() != "MESG":
     EcrireLog(FILE(),LINE(),"Ce type de fichier n'est pas pris en charge par l'application")
-  # DonneesUtiles = Donnees[LONG_HEAD_BUFFER:]
+  DonneesUtiles = Donnees[LONG_HEAD_BUFFER:]
                 
   # Debut d'analyse des blocs contenus dans le Bufferfer 
-  # EnteteBloc = DonneesUtiles[:LONG_HEAD_BLOC] 
-  # LongBloc = (ord(EnteteBloc[3])*2) + 4
+  EnteteBloc = DonneesUtiles[:LONG_HEAD_BLOC] 
+  LongBloc = (ord(EnteteBloc[3])*2) + 4
   
   return {"Type":TypeEnreg}
  
