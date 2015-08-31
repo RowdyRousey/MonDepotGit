@@ -61,11 +61,16 @@ class Application:
           return FileChooser.get_filename()
         FileChooser.destroy()
         
+    def on_MenuItemPrint_click(self,event):
+      print_op = gtk.PrintOperation()
+      
+      res = print_op.run(gtk.PRINT_OPERATION_ACTION_PRINT_DIALOG, None)
+        
     def on_MenuItemSettings_click(self,event):
-        print "J'ai clique sur Param"
+      print "J'ai clique sur Param"
         
     def on_MenuItemAPropos_click(self,event):
-        print "J'ai appuyé sur About"
+      print "J'ai appuyé sur About"
                
 if __name__ == "__main__":
 	Application()

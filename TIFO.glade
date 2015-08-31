@@ -2,6 +2,30 @@
 <interface>
   <requires lib="gtk+" version="2.24"/>
   <!-- interface-naming-policy project-wide -->
+  <object class="GtkImage" id="image1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-open</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image2">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-save</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-save-as</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-print</property>
+    <property name="icon-size">1</property>
+  </object>
   <object class="GtkWindow" id="MainWindows">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
@@ -35,10 +59,10 @@
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkImageMenuItem" id="MenuItemOuvrir">
-                        <property name="label" translatable="yes">_Ouvrir un fichier Enregistrement</property>
+                        <property name="label" translatable="yes">Ouvrir un fichier Enregistrement</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
+                        <property name="image">image1</property>
                         <property name="use_stock">False</property>
                         <signal name="activate" handler="on_MenuItemOuvrir_click" swapped="no"/>
                       </object>
@@ -51,20 +75,20 @@
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="MenuItemSave">
-                        <property name="label" translatable="yes">_Enregistrer un fichier dépouillé</property>
+                        <property name="label">Sauvegarder un fichier dépouillé</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
+                        <property name="image">image2</property>
                         <property name="use_stock">False</property>
                         <signal name="activate" handler="on_MenuItemSave_click" swapped="no"/>
                       </object>
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="MenuItemSaveAs">
-                        <property name="label" translatable="yes">Enregistrer _Sous</property>
+                        <property name="label">Enregistrer Sous ...</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
+                        <property name="image">image3</property>
                         <property name="use_stock">False</property>
                         <signal name="activate" handler="on_MenuItemSaveAs_click" swapped="no"/>
                       </object>
@@ -73,6 +97,16 @@
                       <object class="GtkSeparatorMenuItem" id="Separateur2">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="MenuItemPrint">
+                        <property name="label">Imprimer un dépouillement</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="image">image4</property>
+                        <property name="use_stock">False</property>
+                        <signal name="activate" handler="on_MenuItemPrint_click" swapped="no"/>
                       </object>
                     </child>
                     <child>
