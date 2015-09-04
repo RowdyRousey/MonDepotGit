@@ -68,5 +68,3 @@ def GetIdTypeMessage(Type):
   except:
       return 1
 
-    
-print GetIdTypeMessage("PAC")
