@@ -4,7 +4,7 @@
 import MySQLdb
 from Journalisation import *
 
-#--------------------
+#----------------------------------------------------------------
 # Requeter
 # Fonction qui permet de passer une requete SQL à une base
 # En entrée : La requete
@@ -12,7 +12,7 @@ from Journalisation import *
 # Exemple : Requeter("localhost","root","","tifom","SELECT Code_OACI from aeroport where nom=%s","LFPG")[j][i]
 #           renvoie le i_eme champ du j_ieme enregistrement
 # 
-#--------------------
+#----------------------------------------------------------------
 
 def Requeter(Requete,Param=[]):
 
@@ -54,4 +54,19 @@ def IsAnAirport (Code):
   else:
     return 2
 
-print IsAnAirport("LFP")
+# ======================================
+# GetIdTypeMessage
+# Rôle : Retourner l'identifiant du type de message
+# Entrée : Le type de message
+# Sortie : 0 si oui
+#          1 sinon
+#          2 si erreur
+# ======================================
+def GetIdTypeMessage(Type):
+  try:
+    return Requeter("SELECT id FROM type_message WHERE trigramme=%s",Type)[0][0]
+  except:
+      return 1
+
+    
+print GetIdTypeMessage("PAC")
