@@ -12,11 +12,6 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 
-HOSTNAME="localhost"
-LOGIN = "root"
-MDP = ""
-BASE="tifom"
-
 ERROR = 0
 
 LONG_BUFFER = 1024

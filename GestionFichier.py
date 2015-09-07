@@ -68,6 +68,8 @@ def ExtraireDonneesFichiers(Fenetre,ZoneTexte,NomFichier):
 
               # Pour l'instant je fais le message ABI
               TypeMessage = Champ[0][0:3] #Doit être dans la base des messages gérés
+              if GetIdTypeMessage(TypeMessage) == 0 :
+                print "Le type message n'est pas valide"
               
               NumSeq = Champ[0][len(Champ[0])-3:len(Champ[0])] #Doit être 3 chiffres
               if not re.search("[0-9]{3}",NumSeq,re.MULTILINE):
@@ -87,7 +89,7 @@ def ExtraireDonneesFichiers(Fenetre,ZoneTexte,NomFichier):
                 EcrireLog(FILE(),LINE(),"Le Code SSR est invalide")
               
               AeroportDepart = Champ[2]
-              if IsAnItem("Aeroport",str(AeroportDepart))==1: # Base Airport n'est pas à jour
+              if IsAnAirport(str(AeroportDepart))==1: # Base Airport n'est pas à jour
                 EcrireLog(FILE(),LINE(),"L'aéroport de départ "+AeroportDepart+" n'est pas valide")
               
               PointCoordination = Champ[3].split('/')[0]
@@ -96,7 +98,7 @@ def ExtraireDonneesFichiers(Fenetre,ZoneTexte,NomFichier):
               FLCoordination = Champ[3].split('/')[1][5:8] # 3 chiffres
               
               AeroportArrivee = Champ[4]
-              if IsAnItem("Aeroport",str(AeroportArrivee))==1:
+              if IsAnAirport(str(AeroportArrivee))==1:
                 EcrireLog(FILE(),LINE(),"L'aéroport d'arrivée "+AeroportArrivee+" n'est pas valide")
 
               # Numero du sous-champ facultatif du champ 22 : Champ[5].split('/')[0]
@@ -132,7 +134,7 @@ def InsererTexte(ZoneTexte,Texte):
 # ExtraireEnTete
 # Extraire l'en-tête du fichier
 # En entrée : Le nom du fichier
-# En sortie : Un dictionnaire contenant le type de l'enreg.
+# En sortie : Un dictionnaire contenant les informations 
 # ###############################################################
 
 def ExtraireEnTete(NomFichier):
@@ -179,7 +181,7 @@ def ExtraireEnTete(NomFichier):
   # Le type d'enregistrement en EBCDIC (Extended Binary Coded Decimal Interchange Code)
   TypeEnreg=EnTeteFichier[12:20].decode('EBCDIC-CP-BE').encode('ascii')
 
-  if TypeEnreg.rstrip() != "OLDI" and TypeEnreg.rstrip() != "MESG":
+  if TypeEnreg.rstrip() != "OLDI" :
     EcrireLog(FILE(),LINE(),"Ce type de fichier n'est pas pris en charge par l'application")
   DonneesUtiles = Donnees[LONG_HEAD_BUFFER:]
                 
@@ -187,6 +189,6 @@ def ExtraireEnTete(NomFichier):
   EnteteBloc = DonneesUtiles[:LONG_HEAD_BLOC] 
   LongBloc = (ord(EnteteBloc[3])*2) + 4
   
-  return {"Type":TypeEnreg}
+  return {"Date":DateConvenable,"NumeroActivation":NbActivation,"NumeroBloc":NumBlocFic,"Heure":Heure,"Minutes":Minutes,"Secondes":Secondes,"Type":TypeEnreg}
  
 
