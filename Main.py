@@ -11,14 +11,24 @@ from GestionFichier import *
 ############################################
 
 class Application:
+    
+    
     def __init__(self):
-        MainInterface = gtk.Builder()
-        MainInterface.add_from_file("TIFO.glade") # On fait le lien avec le fichier GLADE
-        MainInterface.connect_signals(self) # Connexion des signaux définis
+      MainInterface = gtk.Builder()
+      MainInterface.add_from_file("TIFO.glade") # On fait le lien avec le fichier GLADE
+      MainInterface.connect_signals(self) # Connexion des signaux définis
 
-        self.window = MainInterface.get_object("MainWindows")
-        self.VisuDepouillement = MainInterface.get_object("VisuDepouillement")
-        self.window.show()
+      self.window = MainInterface.get_object("MainWindows")
+      self.Proprietes()
+      self.VisuDepouillement = MainInterface.get_object("VisuDepouillement")
+      self.window.show()
+        
+    def Proprietes(self): #Il est possible que ça surcharge des propriétés du fichier Glade
+      self.window.set_position(gtk.WIN_POS_CENTER)
+      self.window.set_title(TITRE)
+      self.window.resize(LARGEUR,HAUTEUR) 
+      self.window.set_default_size(LARGEUR,HAUTEUR)
+      #self.window.set_icon_from_file("icone.png")      
 
     def on_MenuItemQuit_click(self,event):
         self.window.destroy()

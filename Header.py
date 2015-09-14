@@ -12,6 +12,10 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 
+TITRE = "Là tu mets ton titre"
+HAUTEUR = 800
+LARGEUR = 1024
+
 ERROR = 0
 
 LONG_BUFFER = 1024
