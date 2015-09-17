@@ -1,5 +1,5 @@
 #! /usr/bin/python
-# -*- coding: latin-1 -*-
+# -*- coding: utf-8 -*-
 
 # #########################################################
 # Journalisation.py
@@ -12,6 +12,7 @@ from Date import *
 from Header import *
 import os
 import inspect # Déja installé avec Python 2.7
+
 
 # ###############################################################
 # EcrireLog
@@ -37,6 +38,24 @@ def EcrireLog(Fichier,Ligne,MessageJournalisation):
   FIC.write(MessageJournalisation2)
   FIC.close()
   ERROR = 1
+
+# ###############################################################
+# InsererTexte
+# Ajouter du texte à la suite du texte contenu dans une Zone
+# En entrée : La Zone de texte où inscrire les données
+#             Le texte à écrire
+# En sortie : Rien
+# ###############################################################
+def InsererTexte(ZoneTexte,Texte):
+  Tampon=ZoneTexte.get_buffer()
+  Start = Tampon.get_start_iter()
+  End = Tampon.get_end_iter()
+  PrvContenu = Tampon.get_text(Start,End)
+  Tampon.set_text(PrvContenu+Texte)
+
+
+
+
 
 # ###############################################################
 # LINE

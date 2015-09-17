@@ -3,6 +3,7 @@
 
 import MySQLdb
 from Journalisation import *
+from Main import *
 
 HOSTNAME="localhost"
 LOGIN = "root"
@@ -19,26 +20,26 @@ BASE="tifom"
 # 
 #----------------------------------------------------------------
 
-def Requeter(Requete,Param=[]):
+def Requeter(Database,Requete,Param=[]):
 
     # Ouverture de la base de données
-    try:
-        db = MySQLdb.connect(host=HOSTNAME, user=LOGIN, passwd=MDP, db=BASE)
-    except:
-        EcrireLog(FILE(),LINE(),"Ouverture de la base "+BASE+" impossible")
-        return "ERROR";
+    #try:
+    #    db = MySQLdb.connect(host=HOSTNAME, user=LOGIN, passwd=MDP, db=BASE)
+    #except:
+    #    EcrireLog(FILE(),LINE(),"Ouverture de la base "+BASE+" impossible")
+    #    return "ERROR";
 
     # Récupération d'un curseur
-    curseur = db.cursor();
+    #curseur = db.cursor()
    
     # Execution de la requete et récupération du résultat
     try :
         curseur.execute(Requete,Param)
         Resultat = curseur.fetchall()
-        curseur.close()
+        #curseur.close()
         return Resultat
     except :
-        curseur.close()
+        #curseur.close()
         return "ERROR"
 
 # ======================================
@@ -50,7 +51,7 @@ def Requeter(Requete,Param=[]):
 #          2 si erreur
 # ======================================
 
-def IsAnAirport (Code):
+def IsAnAirport(Code):
     if Requeter("SELECT nom from aeroport where Code_OACI=%s",Code) != "ERROR":
         if len(Requeter("SELECT nom from aeroport where Code_OACI=%s",Code))>=1:   
             return 0

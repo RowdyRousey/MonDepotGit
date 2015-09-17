@@ -17,6 +17,7 @@ from Requeter import *
 # ###############################################################
 
 def ExtraireDonneesFichiers(Fenetre,ZoneTexte,NomFichier):
+    start_time = time.time()  
     EnTete = ExtraireEnTete(NomFichier)    
     Fenetre.set_title("Dépouillement d'un fichier "+str(EnTete['Type']))
     
@@ -81,7 +82,7 @@ def ExtraireDonneesFichiers(Fenetre,ZoneTexte,NomFichier):
               # Pour du LAM, champ supplémentaire à voir
               
               Indicatif = Champ[1].split("/")[0] #Des chiffres et des lettres ?
-              if Champ[1].split("/")[1][0] != 'A':
+              if Champ[1].split("/")[1][0] != 'A':                
                 EcrireLog(FILE(),LINE(),"Le Mode SSR est invalide")
               
               CodeSSR = Champ[1].split("/")[1][1:] 
@@ -115,20 +116,10 @@ def ExtraireDonneesFichiers(Fenetre,ZoneTexte,NomFichier):
     
     InsererTexte(ZoneTexte,' '.join(Messages)+"\n")      
     IdFichier.close()
+    interval = time.time() - start_time  
+    print 'Total time in seconds:', interval 
      
-# ###############################################################
-# InsererTexte
-# Ajouter du texte à la suite du texte contenu dans une Zone
-# En entrée : La Zone de texte où inscrire les données
-#             Le texte à écrire
-# En sortie : Rien
-# ###############################################################
-def InsererTexte(ZoneTexte,Texte):
-  Tampon=ZoneTexte.get_buffer()
-  Start = Tampon.get_start_iter()
-  End = Tampon.get_end_iter()
-  PrvContenu = Tampon.get_text(Start,End)
-  Tampon.set_text(PrvContenu+Texte)
+
 
 # ###############################################################
 # ExtraireEnTete

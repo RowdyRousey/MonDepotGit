@@ -11,6 +11,7 @@ import re
 import pygtk
 pygtk.require('2.0')
 import gtk
+import time
 
 TITRE = "Là tu mets ton titre"
 HAUTEUR = 800

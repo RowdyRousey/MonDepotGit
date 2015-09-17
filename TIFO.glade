@@ -34,7 +34,6 @@
     <property name="can_default">True</property>
     <property name="has_default">True</property>
     <property name="border_width">10</property>
-    <property name="title" translatable="yes">Traitement Informatisé des Fichiers Oldi (TIFO)</property>
     <property name="window_position">center-always</property>
     <property name="default_width">1024</property>
     <property name="default_height">728</property>
@@ -193,7 +192,6 @@
                     <property name="height_request">0</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Dépouillement des fichiers Enregistrements</property>
                     <property name="justify">center</property>
                     <property name="max_width_chars">16</property>
                   </object>
@@ -378,18 +376,13 @@
           </packing>
         </child>
         <child>
-          <object class="GtkScrolledWindow" id="ScrolledConsole">
+          <object class="GtkViewport" id="viewport1">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">automatic</property>
-            <property name="vscrollbar_policy">automatic</property>
+            <property name="can_focus">False</property>
             <child>
-              <object class="GtkViewport" id="Console">
+              <object class="GtkTextView" id="Console">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <placeholder/>
-                </child>
+                <property name="can_focus">True</property>
               </object>
             </child>
           </object>

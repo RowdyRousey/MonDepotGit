@@ -3,8 +3,8 @@
 
 # Import de librairies ou de fichiers externes
 from Header import *
+from Journalisation import *
 from GestionFichier import *
-
 ############################################
 ### Classe Application
 ### Classe de la fenêtre principale
@@ -21,7 +21,21 @@ class Application:
       self.window = MainInterface.get_object("MainWindows")
       self.Proprietes()
       self.VisuDepouillement = MainInterface.get_object("VisuDepouillement")
-      self.window.show()
+      
+      self.TitreDepouillement = MainInterface.get_object("TitreDepouillement")
+      self.TitreDepouillement.set_text("<b><big>Dépouillement des fichiers Enregistrements</big></b>")
+      self.TitreDepouillement.set_justify(gtk.JUSTIFY_CENTER)
+      self.TitreDepouillement.set_use_markup(True)
+      self.window.show_all()
+      
+      # Ouverture de la base de données
+      try:
+        global curseur
+        db = MySQLdb.connect(host=HOSTNAME, user=LOGIN, passwd=MDP, db=BASE)
+        curseur = db.cursor()
+      except:
+        EcrireLog(FILE(),LINE(),"Ouverture de la base "+BASE+" impossible")
+        return "ERROR";
         
     def Proprietes(self): #Il est possible que ça surcharge des propriétés du fichier Glade
       self.window.set_position(gtk.WIN_POS_CENTER)
@@ -31,6 +45,7 @@ class Application:
       #self.window.set_icon_from_file("icone.png")      
 
     def on_MenuItemQuit_click(self,event):
+        curseur.close()
         self.window.destroy()
 
     def on_MenuItemOuvrir_click(self,event):
@@ -48,6 +63,7 @@ class Application:
         Response = FileChooser.run()
         if Response == gtk.RESPONSE_OK:
           FileChooser.hide()
+          
           ExtraireDonneesFichiers(self.window,self.VisuDepouillement,FileChooser.get_filename())
         FileChooser.destroy()
 
