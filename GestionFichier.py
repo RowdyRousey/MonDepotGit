@@ -5,7 +5,7 @@ from Header import *
 from Date import *
 from Main import * 
 from Journalisation import * 
-from Requeter import * 
+from Requeter import MyDatabaseConnection as MDC 
 
 # ###############################################################
 # ExtraireDonneesFichiers
@@ -16,7 +16,7 @@ from Requeter import *
 # En sortie : Rien
 # ###############################################################
 
-def ExtraireDonneesFichiers(Fenetre,ZoneTexte,NomFichier):
+def ExtraireDonneesFichiers(db,Fenetre,ZoneTexte,NomFichier):
     start_time = time.time()  
     EnTete = ExtraireEnTete(NomFichier)    
     Fenetre.set_title("Dépouillement d'un fichier "+str(EnTete['Type']))
@@ -69,7 +69,7 @@ def ExtraireDonneesFichiers(Fenetre,ZoneTexte,NomFichier):
 
               # Pour l'instant je fais le message ABI
               TypeMessage = Champ[0][0:3] #Doit être dans la base des messages gérés
-              if GetIdTypeMessage(TypeMessage) == 0 :
+              if MDC.GetIdTypeMessage(db,TypeMessage) == 0 :
                 print "Le type message n'est pas valide"
               
               NumSeq = Champ[0][len(Champ[0])-3:len(Champ[0])] #Doit être 3 chiffres
@@ -90,7 +90,7 @@ def ExtraireDonneesFichiers(Fenetre,ZoneTexte,NomFichier):
                 EcrireLog(FILE(),LINE(),"Le Code SSR est invalide")
               
               AeroportDepart = Champ[2]
-              if IsAnAirport(str(AeroportDepart))==1: # Base Airport n'est pas à jour
+              if MDC.IsAnAirport(db,str(AeroportDepart))==1: # Base Airport n'est pas à jour
                 EcrireLog(FILE(),LINE(),"L'aéroport de départ "+AeroportDepart+" n'est pas valide")
               
               PointCoordination = Champ[3].split('/')[0]
@@ -99,8 +99,12 @@ def ExtraireDonneesFichiers(Fenetre,ZoneTexte,NomFichier):
               FLCoordination = Champ[3].split('/')[1][5:8] # 3 chiffres
               
               AeroportArrivee = Champ[4]
-              if IsAnAirport(str(AeroportArrivee))==1:
+              if MDC.IsAnAirport(db,str(AeroportArrivee))==1:
                 EcrireLog(FILE(),LINE(),"L'aéroport d'arrivée "+AeroportArrivee+" n'est pas valide")
+              else:
+                continue;
+                #EcrireLog(FILE(),LINE(),str(AeroportArrivee)+" => "+str(MDC.GetNomAirport(db,str(AeroportArrivee)[0:4]))+"\n")
+                
 
               # Numero du sous-champ facultatif du champ 22 : Champ[5].split('/')[0]
               TypeAeronef = Champ[5].split('/')[1]

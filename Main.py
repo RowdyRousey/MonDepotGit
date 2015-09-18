@@ -5,10 +5,14 @@
 from Header import *
 from Journalisation import *
 from GestionFichier import *
+from Requeter import *
+
 ############################################
 ### Classe Application
 ### Classe de la fenêtre principale
 ############################################
+
+global curseur
 
 class Application:
     
@@ -28,14 +32,7 @@ class Application:
       self.TitreDepouillement.set_use_markup(True)
       self.window.show_all()
       
-      # Ouverture de la base de données
-      try:
-        global curseur
-        db = MySQLdb.connect(host=HOSTNAME, user=LOGIN, passwd=MDP, db=BASE)
-        curseur = db.cursor()
-      except:
-        EcrireLog(FILE(),LINE(),"Ouverture de la base "+BASE+" impossible")
-        return "ERROR";
+      self.dbConnection = MyDatabaseConnection(HOSTNAME, LOGIN, MDP, BASE)
         
     def Proprietes(self): #Il est possible que ça surcharge des propriétés du fichier Glade
       self.window.set_position(gtk.WIN_POS_CENTER)
@@ -45,7 +42,7 @@ class Application:
       #self.window.set_icon_from_file("icone.png")      
 
     def on_MenuItemQuit_click(self,event):
-        curseur.close()
+        self.dbConnection.close() ## On pense bien à fermer la base
         self.window.destroy()
 
     def on_MenuItemOuvrir_click(self,event):
@@ -64,7 +61,7 @@ class Application:
         if Response == gtk.RESPONSE_OK:
           FileChooser.hide()
           
-          ExtraireDonneesFichiers(self.window,self.VisuDepouillement,FileChooser.get_filename())
+          ExtraireDonneesFichiers(self.dbConnection,self.window,self.VisuDepouillement,FileChooser.get_filename())
         FileChooser.destroy()
 
     def on_MenuItemSave_click(self,event):

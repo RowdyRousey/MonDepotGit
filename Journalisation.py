@@ -53,10 +53,6 @@ def InsererTexte(ZoneTexte,Texte):
   PrvContenu = Tampon.get_text(Start,End)
   Tampon.set_text(PrvContenu+Texte)
 
-
-
-
-
 # ###############################################################
 # LINE
 # Renvoie la ligne du fichier lors de l'appel de fonction
