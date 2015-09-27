@@ -18,6 +18,7 @@ class MyDatabaseConnection():
     except:
       EcrireLog(FILE(),LINE(),"Ouverture de la base "+BASE+" impossible")
       print "La connection a la base ne s'est pas realisee correctement"
+      #exit(0)
   
   def close(self):
     self.connection.close()
@@ -71,10 +72,10 @@ class MyDatabaseConnection():
   #          2 si erreur
   # ======================================
   def GetIdTypeMessage(self,Type):
-      try:
-          return self.Requeter(self,"SELECT id FROM type_message WHERE trigramme=%s",Type)[0][0]
-      except:
-          return 0
+    try:
+      return self.Requeter("SELECT id FROM type_message WHERE trigramme=%s",Type)[0][0]
+    except:
+      return 0
 
   # ======================================
   # GetNomAirport

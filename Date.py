@@ -87,6 +87,7 @@ def CalculDateCA(when):
     Date = CalculDateCAFutur()
     return (Date.day,Date.month,Date.year)
   else :
+    print ""
     #Gerer le cas d'erreur
 
 ####################################################################################

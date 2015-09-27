@@ -7,6 +7,19 @@ from Main import *
 from Journalisation import * 
 from Requeter import MyDatabaseConnection as MDC 
 
+
+
+def OuvrirFichier(NomFic):
+  #Ouverture du fichier
+    try:
+      IdFichier = open(NomFic,"rb")
+      return IdFichier
+    except: 
+      EcrireLog(FILE(),LINE(),"Ouverture de "+NomFic+" impossible")
+      exit(0)
+    
+
+
 # ###############################################################
 # ExtraireDonneesFichiers
 # Extraction des données utiles d'un fichier
@@ -16,24 +29,20 @@ from Requeter import MyDatabaseConnection as MDC
 # En sortie : Rien
 # ###############################################################
 
-def ExtraireDonneesFichiers(db,Fenetre,ZoneTexte,NomFichier):
+def ExtraireDonneesFichiers(db,Fenetre,ZoneTexte,IdFichier,NomFichier):
     start_time = time.time()  
-    EnTete = ExtraireEnTete(NomFichier)    
+    EnTete = ExtraireEnTete(IdFichier)    
     Fenetre.set_title("Dépouillement d'un fichier "+str(EnTete['Type']))
     
-    #Ouverture du fichier
-    try:
-        IdFichier = open(NomFichier,"rb")
-    except: 
-        EcrireLog(FILE(),LINE(),"Ouverture de "+NomFichier+" impossible")
-        exit(0)
+    
     
     # Boucle de lecture    
     Messages=[]
 
     while True:
       try:
-        Donnees=IdFichier.read(LONG_BUFFER)        
+        Donnees=IdFichier.read(LONG_BUFFER) 
+             
       except:
         EcrireLog(FILE(),LINE(),"Erreur de lecture du fichier "+NomFichier)
         exit(0)
@@ -69,46 +78,52 @@ def ExtraireDonneesFichiers(db,Fenetre,ZoneTexte,NomFichier):
 
               # Pour l'instant je fais le message ABI
               TypeMessage = Champ[0][0:3] #Doit être dans la base des messages gérés
+              #EcrireLog(FILE(),LINE(),TypeMessage)
+            
               if MDC.GetIdTypeMessage(db,TypeMessage) == 0 :
                 print "Le type message n'est pas valide"
+              else:
+                print TypeMessage,MDC.Requeter(db,"SELECT description FROM type_message WHERE trigramme=%s",TypeMessage)[0][0]
               
               NumSeq = Champ[0][len(Champ[0])-3:len(Champ[0])] #Doit être 3 chiffres
               if not re.search("[0-9]{3}",NumSeq,re.MULTILINE):
                 EcrireLog(FILE(),LINE(),"Le numéro de séquence "+NumSeq+" est invalide")
+              else:
+                print NumSeq
               
               # Les deux champs suivants doivent être dans une base
               ATCSender = Champ[0][3:len(Champ[0])-3].split('/')[0]
-              ATCReceiver = Champ[0][3:len(Champ[0])-3].split('/')[1]
+              print ATCSender
+              #ATCReceiver = Champ[0][3:len(Champ[0])-3].split('/')[1]
               # Pour du LAM, champ supplémentaire à voir
               
-              Indicatif = Champ[1].split("/")[0] #Des chiffres et des lettres ?
-              if Champ[1].split("/")[1][0] != 'A':                
-                EcrireLog(FILE(),LINE(),"Le Mode SSR est invalide")
+              #Indicatif = Champ[1].split("/")[0] #Des chiffres et des lettres ?
+              #if Champ[1].split("/")[1][0] != 'A':                
+              #  EcrireLog(FILE(),LINE(),"Le Mode SSR est invalide")
               
-              CodeSSR = Champ[1].split("/")[1][1:] 
-              if not re.search("[0-7]{4}",CodeSSR,re.MULTILINE):
-                EcrireLog(FILE(),LINE(),"Le Code SSR est invalide")
+              #CodeSSR = Champ[1].split("/")[1][1:] 
+              #if not re.search("[0-7]{4}",CodeSSR,re.MULTILINE):
+              #  EcrireLog(FILE(),LINE(),"Le Code SSR est invalide")
               
-              AeroportDepart = Champ[2]
-              if MDC.IsAnAirport(db,str(AeroportDepart))==1: # Base Airport n'est pas à jour
-                EcrireLog(FILE(),LINE(),"L'aéroport de départ "+AeroportDepart+" n'est pas valide")
+              #AeroportDepart = Champ[2]
+              #if MDC.IsAnAirport(db,str(AeroportDepart))==1: # Base Airport n'est pas à jour
+              #  EcrireLog(FILE(),LINE(),"L'aéroport de départ "+AeroportDepart+" n'est pas valide")
               
-              PointCoordination = Champ[3].split('/')[0]
+              #PointCoordination = Champ[3].split('/')[0]
               # HeureCoordination HH:MM avec H et M sont des chiffres
-              HeureCoordination = str(Champ[3].split('/')[1][0:2])+"H"+str(Champ[3].split('/')[1][2:4])
-              FLCoordination = Champ[3].split('/')[1][5:8] # 3 chiffres
+              #FLCoordination = Champ[3].split('/')[1][5:8] # 3 chiffres
               
-              AeroportArrivee = Champ[4]
-              if MDC.IsAnAirport(db,str(AeroportArrivee))==1:
-                EcrireLog(FILE(),LINE(),"L'aéroport d'arrivée "+AeroportArrivee+" n'est pas valide")
-              else:
-                continue;
+              #AeroportArrivee = Champ[4]
+              #if MDC.IsAnAirport(db,str(AeroportArrivee))==1:
+               # EcrireLog(FILE(),LINE(),"L'aéroport d'arrivée "+AeroportArrivee+" n'est pas valide")
+              #else:
+                #continue;
                 #EcrireLog(FILE(),LINE(),str(AeroportArrivee)+" => "+str(MDC.GetNomAirport(db,str(AeroportArrivee)[0:4]))+"\n")
                 
 
               # Numero du sous-champ facultatif du champ 22 : Champ[5].split('/')[0]
-              TypeAeronef = Champ[5].split('/')[1]
-              TurbulenceSillage = Champ[5].split('/')[2][0]
+              #TypeAeronef = Champ[5].split('/')[1]
+              #TurbulenceSillage = Champ[5].split('/')[2][0]
 
               # Numero du sous-champ facultatif du champ 22 : Champ[6].split('/')[0]
               #TypeVol = Champ[6].split('/')[1]
@@ -132,23 +147,17 @@ def ExtraireDonneesFichiers(db,Fenetre,ZoneTexte,NomFichier):
 # En sortie : Un dictionnaire contenant les informations 
 # ###############################################################
 
-def ExtraireEnTete(NomFichier):
-
-  # Ouverture du fichier
-  try:
-    IdFichier = open(NomFichier,"rb")
-  except: 
-    EcrireLog(FILE(),LINE(),"Ouverture de "+NomFichier+" impossible")
+def ExtraireEnTete(IdFichier):
   
   try:
     Donnees=IdFichier.read(LONG_BUFFER)
   except: 
-    EcrireLog(FILE(),LINE(),"Lecture de "+NomFichier+" impossible")
+    EcrireLog(FILE(),LINE(),"Lecture du fichier impossible")
   
-  try:
-    IdFichier.close()
-  except:
-    EcrireLog(FILE(),LINE(),"Fermeture de "+NomFichier+" impossible") 
+  #try:
+    #IdFichier.close()
+  #except:
+   # EcrireLog(FILE(),LINE(),"Fermeture de fichier impossible") 
 
   # Extraction de l'en-tête du fichier
   [Day,Month,Year] = ExtraireDate(Donnees)

@@ -1,8 +1,8 @@
 #! /usr/bin/python
-# -*- coding: utf-8 -*-
+# -*- coding: iso-8859-1 -*-
 
 ###############################
-# Cartouche de prÃ©sentation
+# Cartouche de présentation
 ###############################
 
 import os
@@ -13,9 +13,10 @@ pygtk.require('2.0')
 import gtk
 import time
 
-TITRE = "LÃ  tu mets ton titre"
-HAUTEUR = 800
-LARGEUR = 1024
+TITRE = "Traitement Informatisé des Fichiers Oldi (TIFO)"
+HAUTEUR = 600
+LARGEUR = 800
+COULEUR_FOND='PALE GREEN'
 
 ERROR = 0
 
